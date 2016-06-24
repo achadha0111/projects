@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title> Random Quotes </title>
+        <link rel="stylesheet" href="mdl/material.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="mdl/material.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script src="https://use.fontawesome.com/04867bf9d1.js"></script>
+        <style>
+            body{
+
+                background: url(img/background1.jpg) no-repeat center center fixed; 
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                
+            }
+            .rq-quote-box {
+                margin-top: 50%;
+                width: 512px;
+                text-align: center;
+                
+            }
+            
+            .rq-quote {
+               
+                height: auto;
+                
+            }
+            
+        </style>
+        <script>
+            
+            var myQuote = '', author = ''; 
+            function nextQuote() {
+                $.ajax({
+                       headers: {
+                           "X-Mashape-Key": "RT7K5jDCQ6mshz6GOSh1kZh9AkNYp1x79NgjsnaTepTAVh5nHy",
+                           "Accept": 'Accept: application/json',
+                           "Content-Type": "application/x-www-form-urlencoded"
+                       },
+                       url: 'https://andruxnet-random-famous-quotes.p.mashape.com/',
+                       success: function(response) {
+                           var result = JSON.parse(response);
+                           myQuote = result.quote;
+                           author = result.author;
+                       }
+                       
+                    }); 
+            } 
+                   
+            $(document).ready(function(){
+                nextQuote();
+                $("#next-quote").on("click", function(){
+                    
+                    var images = ['background1.jpg', 'background2.jpg', 'background3.jpg', 'background4.jpg', 'background5.jpg', 'background6.jpg', 'background7.jpg', 'background8.jpg', 'background9.jpg', 'background10.jpg',]
+                    $('body').css({'background-image': 'url(img/' + images[Math.floor(Math.random() *      images.length)] + ')'});
+                    nextQuote();
+                    $(".rq-quote").html(myQuote);
+                    $(".rq-author").html(author);
+                  });
+                    
+                    
+                
+            });
+        </script>
+    </head>
+    <body>
+       <div class="mdl-grid">
+           <div class="mdl-layout-spacer"></div>
+           <div class="mdl-cell mdl-cell--4-col"> 
+               <div class="mdl-card mdl-shadow--2dp rq-quote-box">
+                   <div class="mdl-card__title-text">  
+                       <h2 class = "rq-quote" >Hello, World!</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text "> 
+                        <h5 class="rq-author">Basically Every Programmer.</h5>
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id = "tweet-quote">
+                            Tweet <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id = "next-quote">
+                            Next Quote
+                        </a>
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id = "fb-quote">
+                            Share <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                    </div>
+               </div>
+           </div>
+           <div class="mdl-layout-spacer"></div>
+           
+       </div> 
+       
+    </body>
+</html>
